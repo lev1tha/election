@@ -39,8 +39,13 @@ const data = {
       borderColor: "rgba(75,192,192,1)",
       data: [69, 39, 80, 55, 11, 34, 77],
     },
+    {
+      label: "сколько Белек дрочил",
+      backgroundColor: "rgba(75,192,192,0.2)",
+      borderColor: "rgba(75,192,192,1)",
+      data: [100, 100, 100, 100, 100, 100, 100],
+    },
   ],
-
 };
 
 const MyChart = () => (

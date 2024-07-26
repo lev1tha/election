@@ -33,7 +33,7 @@ const steps: StepItem[][] = [
       type: "select",
       options: [
         { value: "canditat", label: "Кандидат" },
-        { value: "client", label: "Клиент" },
+        { value: "client", label: "Избиратель" },
       ],
     },
     { id: "username", value: "Пользовательское имя", type: "text" },
@@ -88,8 +88,8 @@ const Sing = () => {
     if (id === "role" && value === "canditat") {
       if (steps.length === 4) {
         steps.splice(3, 0, [
-          { id: "employee_id", value: "Employee ID", type: "text" },
-          { id: "department", value: "Department", type: "text" },
+          { id: "employee_id", value: "Партия", type: "text" },
+          { id: "department", value: "Вид правления", type: "text" },
         ]);
       }
     } else if (id === "role" && value !== "banker" && steps.length === 5) {
@@ -108,7 +108,11 @@ const Sing = () => {
         .then((response: AxiosResponse<{ token: string }>) => {
           const { token } = response.data;
           localStorage.setItem("token", token);
-          route.push("/");
+          if (data.role === "client") {
+            route.push("/");
+          } else {
+            route.push("/condidate");
+          }
         })
         .catch((error) => {
           console.error("Registration failed:", error);
