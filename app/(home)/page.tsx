@@ -1,7 +1,12 @@
 "use client";
+import Header from "@/widgets/header";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 };
 
 export default Home;

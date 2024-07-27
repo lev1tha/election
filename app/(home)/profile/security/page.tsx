@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import Header from "@/widgets/header";
 
 const Security = () => {
   return (
-    <div>Security</div>
-  )
-}
+    <>
+      <Header />
+      <div>Security</div>
+    </>
+  );
+};
 
-export default Security
+export default Security;

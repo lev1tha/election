@@ -32,20 +32,19 @@ const steps: StepItem[][] = [
       value: "Role",
       type: "select",
       options: [
-        { value: "canditat", label: "Кандидат" },
+        { value: "candidate", label: "Кандидат" },
         { value: "client", label: "Избиратель" },
       ],
     },
-    { id: "username", value: "Пользовательское имя", type: "text" },
   ],
   [
-    { id: "date_of_birth", value: "Дата рождения: YYYY.MM.DD", type: "date" },
+    { id: "user", value: "Пользовательское имя", type: "text" },
     { id: "phone", value: "Номер телефона", type: "text" },
   ],
   [
     { id: "email", value: "Почта", type: "email" },
-    { id: "password1", value: "Пароль", type: "password" },
-    { id: "password2", value: "Пароль еще раз", type: "password" },
+    { id: "password", value: "Пароль", type: "password" },
+    { id: "password_confirmation", value: "Пароль еще раз", type: "password" },
   ],
 ];
 
@@ -85,14 +84,14 @@ const Sing = () => {
       }));
     }
 
-    if (id === "role" && value === "canditat") {
+    if (id === "role" && value === "candidate") {
       if (steps.length === 4) {
         steps.splice(3, 0, [
-          { id: "employee_id", value: "Партия", type: "text" },
-          { id: "department", value: "Вид правления", type: "text" },
+          { id: "party", value: "Партия", type: "text" },
+          { id: "bio", value: "Биография", type: "text" },
         ]);
       }
-    } else if (id === "role" && value !== "banker" && steps.length === 5) {
+    } else if (id === "role" && value !== "candidate" && steps.length === 5) {
       steps.splice(3, 1);
     }
   };

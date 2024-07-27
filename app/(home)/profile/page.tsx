@@ -1,11 +1,15 @@
 import React from "react";
 import ProfileUI from "@/processes/profile/";
+import Header from "@/widgets/header";
 
 const Profile = () => {
   return (
-    <div>
-      <ProfileUI />
-    </div>
+    <>
+      <Header />
+      <div>
+        <ProfileUI />
+      </div>
+    </>
   );
 };
 
