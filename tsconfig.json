@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(home)/vote/page.tsx", "shared/component/chart/index.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/(home)/vote/page.tsx", "shared/component/chart/index.jsx"],
   "exclude": ["node_modules"]
 }

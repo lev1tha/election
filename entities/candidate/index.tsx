@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./condidate.module.css";
 import { $api } from "@/shared/lib/api";
 
@@ -8,19 +8,29 @@ interface InputArrayType {
 }
 
 const InputArray = [
-  { id: "bio", value: "Биография", type: "text" },
-  { id: "avatar", value: "", type: "file" },
+  { id: "bio", value: "Биография", type: "textarea" },
+  { id: "photo", value: "Ваше фото", type: "file" },
+  { id: "party", value: "Партия", type: "text" },
 ];
 
 const Index = () => {
   const [data, setData] = useState<InputArrayType>({});
-  const [avatar, setAvatar] = useState<File | null>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value, files } = event.target;
+  useEffect(() => {
+    $api
+      .get("auth/profile/")
+      .then((req) => setData(req.data));
+  }, []);
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value, files } = event.target as HTMLInputElement &
+      HTMLTextAreaElement;
 
     if (files && files.length > 0) {
-      setAvatar(files[0]);
+      setPhoto(files[0]);
     } else {
       setData((prevData) => ({
         ...prevData,
@@ -35,15 +45,14 @@ const Index = () => {
       formData.append(key, data[key]);
     });
 
-    if (avatar) {
-      formData.append("avatar", avatar);
+    if (photo) {
+      formData.append("photo", photo);
     }
 
-    // Replace with your actual API endpoint and logic
     $api
-      .post("candidates/")
-      .then((data) => {
-        console.log("Success:", data);
+      .post("candidates/", formData)
+      .then((response) => {
+        console.log("Success:", response.data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -57,12 +66,20 @@ const Index = () => {
         {InputArray.map((input) => (
           <div key={input.id} className={style.inputGroup}>
             <label htmlFor={input.id}>{input.value}</label>
-            <input
-              id={input.id}
-              type={input.type}
-              onChange={handleInputChange}
-              className={style.input}
-            />
+            {input.type === "textarea" ? (
+              <textarea
+                id={input.id}
+                onChange={handleInputChange}
+                className={style.biotext}
+              />
+            ) : (
+              <input
+                id={input.id}
+                type={input.type}
+                onChange={handleInputChange}
+                className={style.photo}
+              />
+            )}
           </div>
         ))}
         <button

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { $api } from "@/shared/lib/api";
 
+
 const Index = () => {
   const [viewProfile, setViewProfile] = useState<object | null>(null);
 
@@ -13,11 +14,7 @@ const Index = () => {
     }
 
     $api
-      .get("auth/profile/", {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .get("auth/profile/")
       .then((response) => {
         setViewProfile(response.data);
       })

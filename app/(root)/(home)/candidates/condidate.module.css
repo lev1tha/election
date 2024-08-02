@@ -1,0 +1,40 @@
+.condidate_box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 34px;
+  padding: 0 180px;
+}
+
+.condidates_container {
+  position: relative;
+
+  border: 1px solid black;
+  border-radius: 22px;
+  height: 280px;
+  width: 180px;
+}
+
+.avatar {
+  border-radius: 20px;
+  height: 170px;
+
+  width: 178px;
+}
+
+.name_condidate {
+  font-family: "Comfortaa", sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+}
+
+.fullname {
+  font-family: "Comfortaa", sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+
+  width: 150px;
+}
+
+.condidates_info {
+  padding: 20px 30px;
+}

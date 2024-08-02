@@ -41,7 +41,7 @@ const SignUp = () => {
     $api
       .post("auth/login/", data)
       .then((response: AxiosResponse<{ token: string }>) => {
-        const { token } = response.data;
+        const token = response.data.token;
         localStorage.setItem("token", token);
         route.push("/");
       })

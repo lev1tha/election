@@ -38,11 +38,10 @@ const steps: StepItem[][] = [
     },
   ],
   [
-    { id: "user", value: "Пользовательское имя", type: "text" },
+    { id: "email", value: "Почта", type: "email" },
     { id: "phone", value: "Номер телефона", type: "text" },
   ],
   [
-    { id: "email", value: "Почта", type: "email" },
     { id: "password", value: "Пароль", type: "password" },
     { id: "password_confirmation", value: "Пароль еще раз", type: "password" },
   ],
@@ -83,17 +82,6 @@ const Sing = () => {
         [id]: "",
       }));
     }
-
-    if (id === "role" && value === "candidate") {
-      if (steps.length === 4) {
-        steps.splice(3, 0, [
-          { id: "party", value: "Партия", type: "text" },
-          { id: "bio", value: "Биография", type: "text" },
-        ]);
-      }
-    } else if (id === "role" && value !== "candidate" && steps.length === 5) {
-      steps.splice(3, 1);
-    }
   };
 
   const onClickRoute = () => {
@@ -105,7 +93,7 @@ const Sing = () => {
       $api
         .post("auth/register/", data)
         .then((response: AxiosResponse<{ token: string }>) => {
-          const { token } = response.data;
+          const token = response.data.token;
           localStorage.setItem("token", token);
           if (data.role === "client") {
             route.push("/");

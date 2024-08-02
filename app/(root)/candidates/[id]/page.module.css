@@ -1,0 +1,41 @@
+.candidate_container {
+  display: flex;
+  gap: 108px;
+
+  width: 940px;
+  max-width: 100%;
+
+  margin: 0 auto;
+}
+
+.information_candidate {
+  display: flex;
+  flex-direction: column;
+}
+
+.name_candidate h1 {
+  font-family: "Comfortaa", sans-serif;
+  font-size: 44px;
+  font-weight: 400;
+  text-transform: capitalize;
+  margin-bottom: 24px;
+}
+
+.party_candidate h1 {
+  font-family: "Comfortaa", sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 24px;
+}
+
+.avatar_candidate img {
+  width: 350px;
+  height: 340px;
+}
+
+.bio_candidate p {
+  width: 540px;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+}
