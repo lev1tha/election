@@ -6,7 +6,9 @@ import { Provider } from "react-redux";
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
-      <Provider store={store}>{children}</Provider>
+      <Provider store={store}>
+        {children}
+      </Provider>
     </div>
   );
 };

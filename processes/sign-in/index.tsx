@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import InputForm from "@/shared/ui/InputSelector";
 import style from "./signin.module.css";
 import { $api } from "@/shared/lib/api";

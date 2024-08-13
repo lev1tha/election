@@ -21,7 +21,7 @@ interface StepItem {
   options?: { value: string; label: string }[];
 }
 
-const steps: StepItem[][] = [
+const baseSteps: StepItem[][] = [
   [
     { id: "first_name", value: "Имя", type: "text" },
     { id: "last_name", value: "Фамилия", type: "text" },
@@ -29,13 +29,14 @@ const steps: StepItem[][] = [
   [
     {
       id: "role",
-      value: "Role",
+      value: "Роль",
       type: "select",
       options: [
         { value: "candidate", label: "Кандидат" },
-        { value: "client", label: "Избиратель" },
+        { value: "client", label: "Клиент" },
       ],
     },
+    { id: "address", value: "Адрес проживания", type: "text" },
   ],
   [
     { id: "email", value: "Почта", type: "email" },
@@ -43,15 +44,28 @@ const steps: StepItem[][] = [
   ],
   [
     { id: "password", value: "Пароль", type: "password" },
-    { id: "password_confirmation", value: "Пароль еще раз", type: "password" },
+    {
+      id: "password_confirmation",
+      value: "Подтверждение пароля",
+      type: "password",
+    },
   ],
 ];
 
-const Sing = () => {
+const candidateExtraSteps: StepItem[] = [
+  { id: "bio", value: "Биография", type: "text" },
+  { id: "photo", value: "Фото", type: "file" },
+  { id: "party", value: "Партия", type: "text" },
+];
+
+const SignUp = () => {
   const route = useRouter();
   const [data, setData] = useState<InputArrayType>({});
   const [errors, setErrors] = useState<ErrorArrayType>({});
   const [currentStep, setCurrentStep] = useState(0);
+
+  const steps =
+    data.role === "candidate" ? [...baseSteps, candidateExtraSteps] : baseSteps;
 
   const validateStep = (): boolean => {
     const currentErrors: ErrorArrayType = {};
@@ -70,10 +84,11 @@ const Sing = () => {
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { id, value } = event.target;
-    setData((prevData) => ({
+    const { id, value, files } = event.target as HTMLInputElement;
+
+    setData((prevData: any) => ({
       ...prevData,
-      [id]: value,
+      [id]: files && files.length > 0 ? files[0] : value,
     }));
 
     if (errors[id]) {
@@ -90,20 +105,29 @@ const Sing = () => {
 
   const onSendAuth = () => {
     if (validateStep()) {
+      const formData = new FormData();
+      Object.keys(data).forEach((key) => {
+        if (data[key] !== undefined && data[key] !== null) {
+          formData.append(key, data[key]);
+        }
+      });
+
       $api
-        .post("auth/register/", data)
+        .post("auth/register/", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         .then((response: AxiosResponse<{ token: string }>) => {
           const token = response.data.token;
           localStorage.setItem("token", token);
-          if (data.role === "client") {
-            route.push("/");
-          } else {
-            route.push("/condidate");
-          }
+          route.push("/");
         })
         .catch((error) => {
           console.error("Registration failed:", error);
         });
+
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
     }
   };
 
@@ -118,38 +142,37 @@ const Sing = () => {
   };
 
   return (
-    <div className={style.container_sign}>
+    <div className={style.modal_container}>
       <div className={style.modal}>
-        <div className={"modal_container"}>
-          <div className={style.form}>
-            {steps[currentStep].map((item) => (
-              <div key={item.id}>
-                <InputForm
-                  id={item.id}
-                  placeholder={item.value}
-                  type={item.type}
-                  options={item.options}
-                  onChange={handleInputChange}
-                />
-                {errors[item.id] && (
-                  <p className={style.error}>{errors[item.id]}</p>
-                )}
-              </div>
-            ))}
-            <div className={"buttons"}>
-              {currentStep < steps.length - 1 && (
-                <button onClick={handleNextStep}>Продолжить</button>
-              )}
-              {currentStep === steps.length - 1 && (
-                <button onClick={onSendAuth}>Зарегистрироваться</button>
-              )}
-              {currentStep > 0 && (
-                <button onClick={handlePrevStep}>Назад</button>
+        <div className={style.logotype}>
+          <img src="/image/logo-f96fa03c.png" alt="" />
+        </div>
+        <div className={style.form}>
+          {steps[currentStep].map((item) => (
+            <div key={item.id}>
+              <InputForm
+                id={item.id}
+                placeholder={item.value}
+                type={item.type}
+                options={item.options}
+                onChange={handleInputChange}
+              />
+              {errors[item.id] && (
+                <p className={style.error}>{errors[item.id]}</p>
               )}
             </div>
-            <div className={"route"}>
-              <button onClick={onClickRoute}>У меня есть аккаунт</button>
-            </div>
+          ))}
+          <div className={style.buttons}>
+            {currentStep < steps.length - 1 && (
+              <button onClick={handleNextStep}>Продолжить</button>
+            )}
+            {currentStep === steps.length - 1 && (
+              <button onClick={onSendAuth}>Зарегистрироваться</button>
+            )}
+            {currentStep > 0 && <button onClick={handlePrevStep}>Назад</button>}
+          </div>
+          <div className={style.route}>
+            <button onClick={onClickRoute}>У меня есть аккаунт</button>
           </div>
         </div>
       </div>
@@ -157,4 +180,4 @@ const Sing = () => {
   );
 };
 
-export default Sing;
+export default SignUp;

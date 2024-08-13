@@ -6,6 +6,7 @@ const Header = () => {
   return (
     <header className={style.header}>
       <div className={style.logotype}>
+        <img src="/image/logo-f96fa03c.png" alt="" />
         <h1>
           Избирательный Сайт Предоставленный Государством Для Изберания Будущие
           Кандидантов
@@ -16,7 +17,7 @@ const Header = () => {
           <Link href={"/vote"}>
             <p>Кол-во Голосов</p>
           </Link>
-          <Link href={"/condidates"}>
+          <Link href={"/candidates"}>
             <p>Кандидаты</p>
           </Link>
           <Link href={"/profile"}>

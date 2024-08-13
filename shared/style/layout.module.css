@@ -1,0 +1,15 @@
+.layout_container {
+  width: 300px;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  margin-top: 24px;
+  padding: 28px;
+  border: 0.4px solid #3ea1d4;
+  font-family: "Comfortaa", sans-serif;
+}

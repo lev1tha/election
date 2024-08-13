@@ -21,7 +21,7 @@ const Index = () => {
   const handleSendVoter = () => {
     if (voterPost.address && voterPost.user) {
       $api
-        .get(`voter/${voterPost.user}/`)
+        .put(`voter/${voterPost.user}/`)
         .then((response) => {
           return $api.put(`voter/${voterPost.user}/`, voterPost);
         })
@@ -36,8 +36,6 @@ const Index = () => {
         .catch((error) => console.error(error));
     }
   };
-
-  console.log(voterPost);
 
   return (
     <div>

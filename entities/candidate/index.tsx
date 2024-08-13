@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./condidate.module.css";
 import { $api } from "@/shared/lib/api";
+import { useRouter } from "next/router";
 
 interface InputArrayType {
   [key: string]: string;
@@ -16,11 +17,10 @@ const InputArray = [
 const Index = () => {
   const [data, setData] = useState<InputArrayType>({});
   const [photo, setPhoto] = useState<File | null>(null);
+  const route = useRouter();
 
   useEffect(() => {
-    $api
-      .get("auth/profile/")
-      .then((req) => setData(req.data));
+    $api.get("auth/profile/").then((req) => setData(req.data));
   }, []);
 
   const handleInputChange = (
@@ -53,6 +53,7 @@ const Index = () => {
       .post("candidates/", formData)
       .then((response) => {
         console.log("Success:", response.data);
+        route.push("/");
       })
       .catch((error) => {
         console.error("Error:", error);

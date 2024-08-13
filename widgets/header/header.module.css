@@ -5,6 +5,12 @@
   justify-content: space-between;
 }
 
+.logotype{ 
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
 .logotype h1 {
   font-size: 13px;
   font-family: "Comfortaa", sans-serif;
