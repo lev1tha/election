@@ -1,9 +1,13 @@
 import axios from "axios";
 
-const BASE_URL = "https://samagan5.pythonanywhere.com/api/v1/";
+interface DataT {
+  [key: string]: string
+}
+
+export const BASE_URL = "https://samagan5.pythonanywhere.com";
 
 export const $api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL + '/api/v1/',
 });
 
 $api.interceptors.request.use(

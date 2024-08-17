@@ -14,11 +14,13 @@ const givenInput = [
   {
     id: "phone",
     value: "Номер вашего мобильного",
+    placeholder: "Напишите сюда",
     type: "text",
   },
   {
     id: "password",
     value: "Пароль",
+    placeholder: "Напишите сюда",
     type: "password",
   },
 ];
@@ -57,16 +59,22 @@ const SignUp = () => {
   return (
     <div className={style.container_sign}>
       <div className={style.modal}>
-        <div className="modal_container">
+        <div className={style.modal_container}>
+          <div className={style.logotype}>
+            <img src="/image/logo-f96fa03c.png" alt="" />
+          </div>
           <div className={style.form}>
             {givenInput.map((item, index) => (
-              <InputForm
-                key={index}
-                id={item.id}
-                placeholder={item.value}
-                onChange={OnChangeInput}
-                type="type"
-              />
+              <>
+                <p className={style.upper_input_text}>{item.value}</p>
+                <InputForm
+                  key={index}
+                  id={item.id}
+                  placeholder={item.placeholder}
+                  onChange={OnChangeInput}
+                  type={item.type}
+                />
+              </>
             ))}
             <button onClick={onSendAuth} className="button">
               Войти

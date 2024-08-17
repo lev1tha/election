@@ -1,11 +1,14 @@
 "use client";
 import { $api } from "@/shared/lib/api";
 import Header from "@/widgets/header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import style from "@/shared/style/home.module.css";
 import LayoutComponent from "@/shared/component/layout";
 
 const Home = () => {
+  const [isAuth, setIsAuth] = useState<boolean>();
+  const [isDataUser, setIsDataUser] = useState();
+
   useEffect(() => {
     $api.get("auth/profile/").then((req) => {
       localStorage.setItem("useInfo", JSON.stringify(req.data));

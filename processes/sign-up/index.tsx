@@ -18,13 +18,24 @@ interface StepItem {
   id: string;
   value: string;
   type: string;
+  placeholder?: string;
   options?: { value: string; label: string }[];
 }
 
 const baseSteps: StepItem[][] = [
   [
-    { id: "first_name", value: "Имя", type: "text" },
-    { id: "last_name", value: "Фамилия", type: "text" },
+    {
+      id: "first_name",
+      value: "Имя",
+      placeholder: "Напишите сюда",
+      type: "text",
+    },
+    {
+      id: "last_name",
+      value: "Фамилия",
+      placeholder: "Напишите сюда",
+      type: "text",
+    },
   ],
   [
     {
@@ -36,17 +47,39 @@ const baseSteps: StepItem[][] = [
         { value: "client", label: "Клиент" },
       ],
     },
-    { id: "address", value: "Адрес проживания", type: "text" },
+    {
+      id: "address",
+      value: "Адрес проживания",
+      placeholder: "Напишите сюда",
+      type: "text",
+    },
   ],
   [
-    { id: "email", value: "Почта", type: "email" },
-    { id: "phone", value: "Номер телефона", type: "text" },
+    {
+      id: "email",
+      value: "Почта",
+      placeholder: "Напишите сюда",
+      type: "email",
+    },
+    {
+      id: "phone",
+      value: "Номер телефона",
+      placeholder: "Напишите сюда",
+      type: "text",
+    },
   ],
   [
-    { id: "password", value: "Пароль", type: "password" },
+    {
+      id: "password",
+      value: "Пароль",
+      placeholder: "Напишите сюда",
+      type: "password",
+    },
     {
       id: "password_confirmation",
       value: "Подтверждение пароля",
+      placeholder: "Напишите сюда",
+
       type: "password",
     },
   ],
@@ -103,31 +136,29 @@ const SignUp = () => {
     route.push("/sign-in");
   };
 
-  const onSendAuth = () => {
-    if (validateStep()) {
+  const onSendAuth = async () => {
+    if (!validateStep()) return;
+    try {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         if (data[key] !== undefined && data[key] !== null) {
           formData.append(key, data[key]);
         }
       });
-
-      $api
-        .post("auth/register/", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response: AxiosResponse<{ token: string }>) => {
-          const token = response.data.token;
-          localStorage.setItem("token", token);
-          route.push("/");
-        })
-        .catch((error) => {
-          console.error("Registration failed:", error);
-        });
-
-      for (let pair of formData.entries()) {
-        console.log(`${pair[0]}:`, pair[1]);
-      }
+      const { data: user } = await $api.post("auth/register/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      
+      const token = user.token;
+      localStorage.setItem("token", token);
+      if (user.role != "canditate") route.push("/");
+      const { data: canditate } = await $api.post("candidates/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log(canditate);
+      route.push("/");
+    } catch (error) {
+      console.error("Registration failed:", error);
     }
   };
 
@@ -150,9 +181,10 @@ const SignUp = () => {
         <div className={style.form}>
           {steps[currentStep].map((item) => (
             <div key={item.id}>
+              <p className={style.upper_input_text}>{item.value}</p>
               <InputForm
                 id={item.id}
-                placeholder={item.value}
+                placeholder={item.placeholder}
                 type={item.type}
                 options={item.options}
                 onChange={handleInputChange}
