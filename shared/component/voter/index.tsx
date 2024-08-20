@@ -1,53 +1,29 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { $api } from "@/shared/lib/api";
+import style from "./voter.module.css";
 
-const Index = () => {
-  const [voterPost, setVoterPost] = useState({ address: "", user: "" });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setVoterPost((prevData) => ({ ...prevData, address: value }));
-  };
+export default function Index({ params }: any) {
+  const [isUserInfo, setIsUserInfo] = useState<any>(null);
 
   useEffect(() => {
-    const userInfo = localStorage.getItem("useInfo");
-    if (userInfo) {
-      const userId = JSON.parse(userInfo).id;
-      setVoterPost((prevData) => ({ ...prevData, user: userId }));
-    }
+    $api.get("auth/profile").then((req) => setIsUserInfo(req.data));
   }, []);
 
-  const handleSendVoter = () => {
-    if (voterPost.address && voterPost.user) {
-      $api
-        .put(`voter/${voterPost.user}/`)
-        .then((response) => {
-          return $api.put(`voter/${voterPost.user}/`, voterPost);
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 404) {
-            return $api.post("voter/", voterPost);
-          } else {
-            console.error(error);
-          }
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.error(error));
+  const handleOnVoter = () => {
+    if (isUserInfo) {
+      const { id, ...object } = isUserInfo;
+
+      $api.post("voter/", {
+        user: Number(id),
+        ...object,
+      });
     }
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Адрес проживания"
-        value={voterPost.address}
-        onChange={handleInputChange}
-      />
-      <button onClick={handleSendVoter}>Голосую</button>
-    </div>
+    <button className={style.button} onClick={handleOnVoter}>
+      Голосовать
+    </button>
   );
-};
-
-export default Index;
+}

@@ -148,14 +148,13 @@ const SignUp = () => {
       const { data: user } = await $api.post("auth/register/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      
+
       const token = user.token;
       localStorage.setItem("token", token);
       if (user.role != "canditate") route.push("/");
       const { data: canditate } = await $api.post("candidates/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(canditate);
       route.push("/");
     } catch (error) {
       console.error("Registration failed:", error);

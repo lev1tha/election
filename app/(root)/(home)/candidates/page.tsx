@@ -54,8 +54,6 @@ const Page = () => {
     dispatch(setSelectedCandidate(id));
   };
 
-  console.log(data);
-
   return (
     <>
       <Header />

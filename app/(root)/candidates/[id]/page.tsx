@@ -46,10 +46,10 @@ const page = ({ params }: { params: { id: string } }) => {
           <div className={style.party_candidate}>
             <h1>{dataCandidate?.party}</h1>
           </div>
-          <div className={style.s}>
+          <div className={style.bio_candidate}>
             <p>{dataCandidate?.bio}</p>
           </div>
-          <Voter />
+          <Voter  params={params} />
         </div>
       </div>
     </>

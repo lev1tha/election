@@ -5,6 +5,10 @@
   width: 940px;
   max-width: 100%;
 
+  border: 1px solid black;
+  border-radius: 22px;
+  padding: 32px;
+
   margin: 0 auto;
 }
 
@@ -18,24 +22,27 @@
   font-size: 44px;
   font-weight: 400;
   text-transform: capitalize;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .party_candidate h1 {
   font-family: "Comfortaa", sans-serif;
   font-size: 28px;
-  font-weight: 400;
-  margin-bottom: 24px;
+  font-weight: 500;
+  margin-bottom: 32px;
 }
 
 .avatar_candidate img {
-  width: 350px;
-  height: 340px;
+  width: fit-content;
+  max-width: 340px;
+  max-height: 420px;
+  border-radius: 16px;
 }
 
 .bio_candidate p {
-  width: 540px;
+  width: 320px;
   font-family: "Comfortaa", sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 200;
+  margin-bottom: 36px;
 }
